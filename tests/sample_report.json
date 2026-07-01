@@ -1,0 +1,24 @@
+{
+  "recipient": "exec@company.com",
+  "role": "Executive",
+  "timestamp": "2026-07-01 16:04:37 UTC",
+  "narrative": "Statistical analysis has identified deviations in key business metrics:\n- **churn_rate** (Product): CRITICAL ALERT.\n- **revenue** (Finance): CRITICAL ALERT.",
+  "flagged_kpis": {
+    "active_users": {
+      "kpi_name": "active_users",
+      "team": "Product",
+      "latest_value": 5260.0,
+      "rolling_mean": 5220.0,
+      "z_score": 1.85,
+      "status": "Watch"
+    },
+    "revenue": {
+      "kpi_name": "revenue",
+      "team": "Finance",
+      "latest_value": 1500.0,
+      "rolling_mean": 10061.43,
+      "z_score": -68.59,
+      "status": "Critical"
+    }
+  }
+}

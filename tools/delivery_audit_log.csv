@@ -1,0 +1,13 @@
+timestamp,recipient,role,status,delivered_kpis
+2026-07-01 16:04:18,exec@company.com,Executive,Simulated delivery successful (Mock Slack Server),revenue;active_users;churn_rate;conversion_rate
+2026-07-01 16:04:37,exec@company.com,Executive,Simulated delivery successful (Mock Slack Server),revenue;active_users;churn_rate;conversion_rate
+2026-07-01 16:04:48,product-lead@company.com,Product Lead,Simulated delivery successful (Mock Slack Server),active_users;churn_rate
+2026-07-01 16:41:44,exec@company.com,Executive,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,revenue;active_users;churn_rate;conversion_rate
+2026-07-01 16:58:59,exec@company.com,Executive,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,revenue;active_users;churn_rate;conversion_rate
+2026-07-01 16:59:04,finance@company.com,Finance Lead,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,revenue
+2026-07-01 16:59:08,mkt@company.com,Marketing Lead,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,conversion_rate
+2026-07-01 16:59:12,executive@company.com,Executive,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,revenue;active_users;churn_rate;conversion_rate
+2026-07-01 17:02:19,exec@company.com,Executive,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,revenue;active_users;churn_rate;conversion_rate
+2026-07-01 17:02:24,finance@company.com,Finance Lead,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,revenue
+2026-07-01 17:02:28,mkt@company.com,Marketing Lead,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,conversion_rate
+2026-07-01 17:02:32,executive@company.com,Executive,Delivered via LocalMCP (offline Slack): [LocalMCP/Slack] Message posted to #alerts. Logged to tools\mock_slack_messages.jsonl,revenue;active_users;churn_rate;conversion_rate

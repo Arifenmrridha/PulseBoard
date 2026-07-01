@@ -1,0 +1,13 @@
+# Role-Based Access Control allowlist definition for PulseBoard
+roles:
+  Executive:
+    allowed_kpis: ["revenue", "active_users", "churn_rate", "conversion_rate"]
+  Product Lead:
+    allowed_kpis: ["active_users", "churn_rate"]
+  Marketing Lead:
+    allowed_kpis: ["conversion_rate"]
+  Finance Lead:
+    allowed_kpis: ["revenue"]
+  Team Lead:
+    # Fallback/generic lead role
+    allowed_kpis: ["active_users", "conversion_rate"]

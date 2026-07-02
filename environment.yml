@@ -5,3 +5,4 @@ dependencies:
   - pip
   - pip:
       - -r requirements.txt
+conda env update --file environment.yml --name base

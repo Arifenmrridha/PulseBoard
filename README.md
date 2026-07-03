@@ -93,7 +93,7 @@ See `deploy/cloudrun_deploy.sh` and `deploy/scheduler_config.yaml` for the full 
 
 ## Demo / Screenshots
 
-*(Add screenshots or a short GIF of the pipeline running, an anomaly being flagged, and the final report arriving in Slack.)*
+<img width="1750" height="875" alt="Image" src="https://github.com/user-attachments/assets/a3288bc9-7721-47a1-99df-8142e59898e5" />
 
 ---
 

@@ -287,4 +287,4 @@ common cancellation reasons.
 
 ## License
 
-This project is Licensed under the ## MIT License.
+This project is Licensed under the **MIT License**.

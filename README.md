@@ -1,101 +1,277 @@
 # PulseBoard
 
-**Autonomous KPI Monitoring & Executive Insight Agent Suite**
-*AI Agents Intensive — Capstone Project | Track: Agents for Business*
+**Autonomous KPI Monitoring and Executive Insight Agent Suite**
+
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Google ADK](https://img.shields.io/badge/Google%20ADK-Agent%20Pipeline-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://google.github.io/adk-docs/)
+[![MCP](https://img.shields.io/badge/MCP-Delivery%20Server-111827?style=for-the-badge)](https://modelcontextprotocol.io/)
+[![Cloud Run](https://img.shields.io/badge/Google%20Cloud%20Run-Deployable-34A853?style=for-the-badge&logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
+
+> Built for **AI Agents Intensive - Capstone Project**  
+> Track: **Agents for Business**  
+> Author: **Arifen**
+
+PulseBoard is a multi-agent business monitoring pipeline that autonomously ingests KPI data, detects anomalies, writes executive-ready insights, and delivers reports through an MCP-powered channel such as Slack or Gmail.
+
+Instead of making business teams manually pull spreadsheets, scan charts, and write status updates, PulseBoard turns KPI monitoring into a reliable agent workflow.
 
 ---
 
-## Problem
+## Why PulseBoard?
 
-Business teams spend hours every week manually pulling KPI data from spreadsheets or warehouses, scanning for anomalies, and writing executive summaries. This process is slow, reactive, and error-prone — issues are often discovered days after they occur, by which point the impact has already compounded.
+Business teams often discover KPI issues days after they begin. Revenue drops, rising churn, inventory gaps, or campaign underperformance can compound before anyone has time to investigate.
 
-## Solution
+PulseBoard solves this by running a daily autonomous workflow:
 
-PulseBoard is a multi-agent pipeline, built with Google's Agent Development Kit (ADK), that runs this entire workflow autonomously:
+- Pull KPI data from Google Sheets or BigQuery.
+- Validate schema and flag malformed rows.
+- Compare current metrics against historical baselines.
+- Classify each KPI as `Normal`, `Watch`, or `Critical`.
+- Generate a concise executive summary with recommended actions.
+- Deliver the report through an MCP server after role-based access checks.
+- Store an audit log for traceability.
 
-1. **DataIngestionAgent** — pulls KPI data from a source (Google Sheet / BigQuery), validates schema, flags malformed rows.
-2. **AnomalyDetectionAgent** — compares each KPI against historical baselines and classifies it as Normal / Watch / Critical.
-3. **InsightGenerationAgent** — turns flagged anomalies into a concise, business-friendly narrative with a recommended action.
-4. **ReportDeliveryAgent** — delivers the report through an MCP server (Slack/Gmail), applying role-based access checks before sending.
+---
 
-Each agent has a narrow, well-defined responsibility, and state is passed between them via ADK's session management rather than ad hoc string concatenation.
+## Agent Pipeline
+
+| Agent | Responsibility | Output |
+| --- | --- | --- |
+| `DataIngestionAgent` | Pulls KPI data, validates schema, and sanitizes suspicious input. | Clean KPI records plus validation warnings. |
+| `AnomalyDetectionAgent` | Compares KPIs against historical baselines. | Severity labels: `Normal`, `Watch`, or `Critical`. |
+| `InsightGenerationAgent` | Converts anomalies into business-friendly summaries. | Narrative insight and recommended action. |
+| `ReportDeliveryAgent` | Checks recipient permissions and sends the report through MCP. | Delivered report plus audit log entry. |
+
+State is passed through **Google ADK session management**, keeping each agent focused and avoiding fragile string-passing between steps.
+
+---
 
 ## Architecture
 
-```
- ┌──────────────────────┐
- │ DataIngestionAgent    │  → pulls & validates KPI data
- └──────────┬────────────┘
-            ▼
- ┌──────────────────────┐
- │ AnomalyDetectionAgent │  → flags Normal / Watch / Critical
- └──────────┬────────────┘
-            ▼
- ┌──────────────────────┐
- │ InsightGenerationAgent│  → generates narrative + recommendation
- └──────────┬────────────┘
-            ▼
- ┌──────────────────────┐
- │ ReportDeliveryAgent   │  → RBAC check → MCP delivery → audit log
- └──────────────────────┘
+```text
+KPI Source
+Google Sheets / BigQuery
+        |
+        v
++-------------------------+
+| DataIngestionAgent      |
+| Pull, validate, sanitize|
++-----------+-------------+
+            |
+            v
++-------------------------+
+| AnomalyDetectionAgent   |
+| Baselines and severity  |
++-----------+-------------+
+            |
+            v
++-------------------------+
+| InsightGenerationAgent  |
+| Narrative and action    |
++-----------+-------------+
+            |
+            v
++-------------------------+
+| ReportDeliveryAgent     |
+| RBAC, MCP, audit log    |
++-----------+-------------+
+            |
+            v
+Slack / Gmail / Sheets
 ```
 
-See `ARCHITECTURE.md` for a detailed breakdown of data flow, state schema, and design rationale.
+For deeper implementation details, see [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
-## Setup Instructions
+---
+
+## Key Features
+
+- **Autonomous KPI monitoring**: Runs the full workflow without manual report preparation.
+- **Multi-agent design**: Each agent has a narrow, testable responsibility.
+- **Schema validation**: Malformed rows are flagged before they affect analysis.
+- **Prompt-injection defense**: Spreadsheet cells are sanitized before reaching LLM-powered steps.
+- **Severity classification**: KPIs are labeled as `Normal`, `Watch`, or `Critical`.
+- **Executive summaries**: Output is concise, business-friendly, and action-oriented.
+- **Role-based access control**: Recipients only receive KPIs they are authorized to view.
+- **MCP delivery**: Reports can be delivered through Slack, Gmail, or another configured MCP server.
+- **Audit logging**: Every delivery records timestamp, recipient, and flagged KPIs.
+- **Cloud Run ready**: Designed for scheduled daily execution in Google Cloud.
+
+---
+
+## Demo
+
+<img width="1750" height="875" alt="PulseBoard demo screenshot" src="https://github.com/user-attachments/assets/a3288bc9-7721-47a1-99df-8142e59898e5" />
+
+---
+
+## Project Structure
+
+```text
+pulseboard/
+  agents/
+    orchestrator.py
+    data_ingestion_agent.py
+    anomaly_detection_agent.py
+    insight_generation_agent.py
+    report_delivery_agent.py
+  mcp_config/
+    slack_mcp_config.json
+  deploy/
+    cloudrun_deploy.sh
+    scheduler_config.yaml
+  tests/
+  .env.example
+  ARCHITECTURE.md
+  Dockerfile
+  requirements.txt
+  README.md
+```
+
+---
+
+## Setup
+
+### 1. Clone the repository
 
 ```bash
-# 1. Clone the repo
 git clone https://github.com/<your-username>/pulseboard.git
 cd pulseboard
+```
 
-# 2. Create a virtual environment
+### 2. Create a virtual environment
+
+```bash
 python -m venv venv
 source venv/bin/activate
+```
 
-# 3. Install dependencies
+On Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-# 4. Configure environment variables
+### 4. Configure environment variables
+
+```bash
 cp .env.example .env
-# Fill in your own values in .env (never commit this file)
+```
 
-# 5. Run the pipeline
+Fill in your own values in `.env`.
+
+```env
+GOOGLE_API_KEY=
+GOOGLE_SHEET_ID=
+BIGQUERY_PROJECT_ID=
+SLACK_MCP_SERVER_URL=
+SLACK_BOT_TOKEN=
+REPORT_RECIPIENTS=
+```
+
+No credentials should be committed to the repository.
+
+### 5. Run the pipeline
+
+```bash
 python agents/orchestrator.py
 ```
 
+---
+
 ## MCP Configuration
 
-PulseBoard uses an MCP server for report delivery (Slack by default). Configuration lives in `mcp_config/slack_mcp_config.json`. To use a different channel (e.g., Gmail or Sheets), swap the MCP server URL and credentials in `.env` and update the config accordingly. No credentials are stored in this repo — all secrets are loaded from environment variables at runtime.
+PulseBoard uses an MCP server for report delivery. Slack is the default delivery channel.
 
-## Security Notes
+Configuration lives in:
 
-- **No hard-coded secrets** — all API keys and tokens are loaded via environment variables.
-- **Role-based access control** — `ReportDeliveryAgent` checks a configurable allowlist so each recipient role only sees the KPIs they're authorized to view (e.g., Executive vs. Team Lead).
-- **Input sanitization** — ingested spreadsheet data is validated and stripped of anything resembling embedded instructions, to guard against prompt injection via data cells.
-- **Audit logging** — every delivered report is logged with timestamp, recipient, and flagged KPIs for traceability.
+```text
+mcp_config/slack_mcp_config.json
+```
 
-## Deployment (Cloud Run)
+To use Gmail, Sheets, or another channel:
+
+1. Update the MCP server URL.
+2. Add the required credentials to `.env`.
+3. Adjust the delivery target in the MCP config.
+4. Confirm recipient permissions in the RBAC allowlist.
+
+---
+
+## Security
+
+PulseBoard is designed with business-data safety in mind.
+
+| Control | Purpose |
+| --- | --- |
+| Environment variables | Keeps API keys and tokens out of source control. |
+| Role-based access control | Ensures recipients only receive authorized KPI data. |
+| Input sanitization | Reduces prompt-injection risk from spreadsheet cells. |
+| Schema validation | Prevents malformed rows from entering the agent workflow. |
+| Audit logging | Creates a traceable record of report delivery events. |
+
+---
+
+## Deployment
+
+### Cloud Run
 
 ```bash
-# Build and deploy
 docker build -t pulseboard .
 gcloud run deploy pulseboard --source . --platform managed --region <your-region>
+```
 
-# Schedule daily runs via Cloud Scheduler
+### Daily Schedule
+
+```bash
 gcloud scheduler jobs create http pulseboard-daily \
   --schedule="0 9 * * *" \
   --uri=<your-cloud-run-url> \
   --http-method=POST
 ```
 
-See `deploy/cloudrun_deploy.sh` and `deploy/scheduler_config.yaml` for the full deployment scripts.
+See:
 
-## Demo / Screenshots
-
-<img width="1750" height="875" alt="Image" src="https://github.com/user-attachments/assets/a3288bc9-7721-47a1-99df-8142e59898e5" />
+- [`deploy/cloudrun_deploy.sh`](deploy/cloudrun_deploy.sh)
+- [`deploy/scheduler_config.yaml`](deploy/scheduler_config.yaml)
 
 ---
 
-**Built with:** Google ADK · MCP · Python · Google Cloud Run
-**Author:** Arifen
+## Example Report Output
+
+```text
+PulseBoard Daily KPI Brief
+
+Status: Critical
+
+Revenue dropped 18% below the 30-day baseline, driven primarily by lower
+conversion from paid campaigns. Churn is also in Watch status after rising
+6% week over week.
+
+Recommended action:
+Review paid campaign targeting and pause the lowest-performing segments.
+Customer Success should inspect churned accounts from the last 7 days for
+common cancellation reasons.
+```
+
+---
+
+## Built With
+
+- **Google Agent Development Kit (ADK)** for multi-agent orchestration.
+- **Model Context Protocol (MCP)** for report delivery integrations.
+- **Python** for pipeline implementation.
+- **Google Cloud Run** for deployment.
+- **Cloud Scheduler** for automated daily execution.
+
+---
+
+## License
+
+This project is prepared for the AI Agents Intensive Capstone submission. Add your preferred license before publishing publicly.

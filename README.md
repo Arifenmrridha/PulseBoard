@@ -99,6 +99,19 @@ For deeper implementation details, see [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ---
 
+## Capstone Requirements Coverage
+
+| Key Concept | Where It Is Demonstrated | Evidence |
+| --- | --- | --- |
+| Agent / Multi-agent system with ADK | Code | The pipeline is split into specialized agents: `DataIngestionAgent`, `AnomalyDetectionAgent`, `InsightGenerationAgent`, and `ReportDeliveryAgent`. |
+| MCP Server | Code | Report delivery is handled through the MCP configuration in `mcp_config/slack_mcp_config.json`. |
+| Antigravity | Video | The demo video should show the project running inside Antigravity and explain the agent workflow. |
+| Security features | Code and video | Environment variables, RBAC checks, input sanitization, and audit logging are built into the workflow. |
+| Deployability | Video | The demo video should show or explain Cloud Run deployment and Cloud Scheduler automation. |
+| Agent skills, such as Agents CLI | Code or video | The implementation and demo can highlight how agent tools/skills are used to complete ingestion, analysis, insight generation, and delivery. |
+
+---
+
 ## Demo
 
 <img width="1750" height="875" alt="PulseBoard demo screenshot" src="https://github.com/user-attachments/assets/a3288bc9-7721-47a1-99df-8142e59898e5" />

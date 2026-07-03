@@ -9,7 +9,7 @@
 
 > Built for **AI Agents Intensive - Capstone Project**  
 > Track: **Agents for Business**  
-> Author: **Arifen**
+> Author: **Md Sadrul Arifen**
 
 PulseBoard is a multi-agent business monitoring pipeline that autonomously ingests KPI data, detects anomalies, writes executive-ready insights, and delivers reports through an MCP-powered channel such as Slack or Gmail.
 

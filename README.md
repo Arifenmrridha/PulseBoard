@@ -287,4 +287,4 @@ common cancellation reasons.
 
 ## License
 
-This project is prepared for the AI Agents Intensive Capstone submission. Add your preferred license before publishing publicly.
+This project is Licensed under the ## MIT License.
